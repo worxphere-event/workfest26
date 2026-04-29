@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>WORK FEST SNS 공유 인증</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif;
+    background: #FFFFFF;
+    color: #191F28;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.5;
+  }
+  .wrap { max-width: 480px; margin: 0 auto; padding: 32px 24px 80px; }
+  .header { margin-bottom: 28px; text-align: center; }
+  .logo { display: block; height: 96px; width: auto; max-width: 100%; margin: 0 auto 16px; }
+  .header-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #191F28;
+    margin: 0 0 6px;
+    letter-spacing: -0.3px;
+  }
+  .header-desc {
+    font-size: 13px;
+    font-weight: 500;
+    color: #6B7684;
+    margin: 0;
+    letter-spacing: 0.1px;
+    line-height: 1.6;
+  }
+  .info-box {
+    background: #F9FAFB;
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin-bottom: 28px;
+  }
+  .info-box-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #191F28;
+    margin: 0 0 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .info-box-title .tag {
+    font-size: 10px;
+    font-weight: 700;
+    background: #191F28;
+    color: #fff;
+    padding: 2px 6px;
+    border-radius: 4px;
+    letter-spacing: 0.2px;
+  }
+  .info-box-text {
+    font-size: 12px;
+    color: #4E5968;
+    margin: 0;
+    line-height: 1.6;
+  }
+  .info-box-text b { color: #191F28; font-weight: 600; }
+
+  .section { margin-bottom: 32px; }
+  .section:last-of-type { margin-bottom: 0; }
+  .field { margin-bottom: 20px; }
+  .field:last-child { margin-bottom: 0; }
+  label.q {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #191F28;
+  }
+  .req { color: #F04452; margin-left: 2px; }
+  .q-sub { font-size: 12px; color: #8B95A1; font-weight: 400; margin-left: 6px; }
+  .hint { font-size: 12px; color: #8B95A1; margin: 6px 0 0; }
+  .field-desc { font-size: 12px; color: #8B95A1; margin: 0 0 12px; line-height: 1.5; }
+
+  input[type="text"], input[type="tel"], input[type="url"] {
+    width: 100%;
+    height: 52px;
+    background: #FFFFFF;
+    border: 1px solid #E5E8EB;
+    border-radius: 14px;
+    padding: 0 16px;
+    font-size: 15px;
+    font-weight: 400;
+    font-family: inherit;
+    color: #191F28;
+    outline: none;
+    transition: border-color .15s, box-shadow .15s;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  input:focus {
+    border-color: #191F28;
+    box-shadow: 0 0 0 3px rgba(25, 31, 40, 0.1);
+  }
+  input::placeholder { color: #B0B8C1; }
+
+  .agree-card { padding: 0; }
+  .agree-row {
+    display: flex;
+    align-items: flex-start;
+    padding: 8px 0;
+    cursor: pointer;
+    user-select: none;
+  }
+  .agree-row.all { padding: 12px 0 10px; border-bottom: 1px solid #F2F4F6; margin-bottom: 2px; }
+  .agree-row input { display: none; }
+  .check {
+    flex-shrink: 0;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: #E5E8EB;
+    margin-right: 10px;
+    margin-top: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background .15s;
+  }
+  .check svg { width: 12px; height: 12px; }
+  .agree-row input:checked + .check { background: #191F28; }
+  .agree-text { flex: 1; font-size: 13px; color: #4E5968; line-height: 1.5; }
+  .agree-text b { color: #191F28; font-weight: 600; font-size: 14px; }
+  .agree-text .req-tag { color: #191F28; font-weight: 600; }
+
+  .agree-row-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .agree-row-wrap .agree-row { flex: 1; padding: 8px 0; }
+  .see-more-btn {
+    flex-shrink: 0;
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 500;
+    color: #B0B8C1;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+  }
+  .see-more-btn::after {
+    content: '›';
+    font-size: 14px;
+    color: #B0B8C1;
+    line-height: 1;
+  }
+  .see-more-btn:hover { color: #4E5968; }
+  .agree-terms {
+    padding: 0 0 12px 32px;
+    margin-top: -4px;
+  }
+  .agree-terms .terms {
+    background: #FFFFFF;
+    border-radius: 8px;
+    padding: 12px;
+    border: 1px solid #ECEEF1;
+  }
+  .terms {
+    font-size: 12px;
+    color: #6B7684;
+    line-height: 1.7;
+    white-space: pre-line;
+    padding: 0;
+  }
+
+  .submit-wrap {
+    position: sticky;
+    bottom: 0;
+    left: 0; right: 0;
+    background: linear-gradient(to top, #FFFFFF 60%, rgba(255,255,255,0));
+    padding: 16px 0 8px;
+    margin-top: 24px;
+  }
+  button.submit {
+    width: 100%;
+    height: 56px;
+    background: #191F28;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background .15s, transform .05s;
+    letter-spacing: -0.2px;
+  }
+  button.submit:hover { background: #2D3748; }
+  button.submit:active { transform: scale(0.99); }
+  button.submit:disabled { background: #D1D6DB; cursor: not-allowed; }
+
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: #191F28;
+    color: #fff;
+    padding: 14px 20px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    opacity: 0;
+    transition: all .3s;
+    z-index: 100;
+    max-width: 90%;
+    text-align: center;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+  .done {
+    text-align: center;
+    padding: 60px 24px;
+  }
+  .done .icon {
+    width: 64px; height: 64px;
+    margin: 0 auto 20px;
+    background: #F2F4F6;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .done .icon svg { width: 28px; height: 28px; }
+  .done h2 { font-size: 22px; font-weight: 700; margin: 0 0 8px; letter-spacing: -0.4px; color: #191F28; }
+  .done .done-desc { font-size: 14px; color: #6B7684; margin: 0 0 24px; line-height: 1.5; }
+  .hidden { display: none; }
+
+  @media (max-width: 380px) {
+    .wrap { padding: 24px 16px 80px; }
+    .logo { height: 80px; }
+    input { height: 48px; font-size: 14px; }
+    button.submit { height: 52px; font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap" id="formScreen">
+  <div class="header">
+    <img src="logo.png" alt="WORK FEST" class="logo">
+    <p class="header-title">SNS 공유 인증하기</p>
+    <p class="header-desc">SNS에 공유하고 게시글을 인증하면<br>당첨 확률이 올라가요!</p>
+  </div>
+
+  <div class="info-box">
+    <p class="info-box-title"><span class="tag">TIP</span>인증 방법</p>
+    <p class="info-box-text">
+      ① 링크드인·스레드·인스타그램·네이버 블로그 등에 <b>WORK FEST 후기</b>를 공유<br>
+      ② 게시글 URL을 복사해서 아래 폼에 붙여넣기<br>
+      ③ 정보 입력 후 인증 완료!
+    </p>
+  </div>
+
+  <div class="section">
+    <div class="field">
+      <label class="q" for="name">성함<span class="req">*</span></label>
+      <input type="text" id="name" placeholder="실명을 입력해 주세요" maxlength="20" autocomplete="name">
+    </div>
+
+    <div class="field">
+      <label class="q" for="phone">핸드폰 번호<span class="req">*</span><span class="q-sub">하이픈, 공백 없이 숫자만 입력해 주세요</span></label>
+      <input type="tel" id="phone" placeholder="예) 01022223333" inputmode="numeric" maxlength="11" autocomplete="tel">
+    </div>
+
+    <div class="field">
+      <label class="q" for="url">후기 게시글 URL<span class="req">*</span></label>
+      <p class="field-desc">링크드인 / 스레드 / 인스타그램 / 네이버 블로그 등</p>
+      <input type="url" id="url" placeholder="https://..." autocomplete="off">
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="agree-card">
+      <label class="agree-row all">
+        <input type="checkbox" id="agreeAll">
+        <span class="check"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L20 7" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span class="agree-text"><b>약관 전체에 동의합니다</b></span>
+      </label>
+
+      <div class="agree-row-wrap">
+        <label class="agree-row">
+          <input type="checkbox" id="agreePrivacy">
+          <span class="check"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L20 7" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <span class="agree-text"><span class="req-tag">[필수]</span> 개인정보 수집 및 이용 동의</span>
+        </label>
+        <button type="button" class="see-more-btn" data-target="privacyTerms">자세히 보기</button>
+      </div>
+      <div class="agree-terms" id="privacyTerms" hidden>
+        <div class="terms">동의하지 않을 경우, 이벤트 응모가 어렵습니다.
+
+1. 수집 목적: 이벤트 안내 및 경품 지급
+2. 수집 항목: 성함, 연락처, 회원 ID 등
+3. 보유 및 이용 기간: 이벤트 종료 후 3개월</div>
+      </div>
+
+      <div class="agree-row-wrap">
+        <label class="agree-row">
+          <input type="checkbox" id="agreeThird">
+          <span class="check"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L20 7" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <span class="agree-text"><span class="req-tag">[필수]</span> 개인정보 제3자 제공 동의</span>
+        </label>
+        <button type="button" class="see-more-btn" data-target="thirdTerms">자세히 보기</button>
+      </div>
+      <div class="agree-terms" id="thirdTerms" hidden>
+        <div class="terms">동의하지 않을 경우 당첨 및 경품 수령이 불가합니다.
+
+1. 제공받는 자: (주)스마트콘
+2. 이용 목적: 이벤트 경품 발송
+3. 제공 항목: 이름, 연락처, 주소
+4. 보유 및 이용 기간: 경품 발송일로부터 60일</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="submit-wrap">
+    <button type="button" class="submit" id="submitBtn">인증 완료하기</button>
+  </div>
+</div>
+
+<div class="wrap done hidden" id="doneScreen">
+  <div class="icon">
+    <svg width="36" height="36" viewBox="0 0 24 24" fill="none">
+      <path d="M5 12l5 5L20 7" stroke="#191F28" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+  <h2>인증이 완료됐어요!</h2>
+  <p class="done-desc">SNS 공유 감사해요 🎉<br>당첨 확률이 올라갔어요!</p>
+</div>
+
+<iframe name="hidden_iframe" id="hidden_iframe" style="display:none"></iframe>
+<form id="googleForm" action="https://docs.google.com/forms/d/e/1FAIpQLSeuy0YaRRiJFbmjlI8wcLrQBiSVGClXCqZlrJExqYvQW_57VQ/formResponse" method="POST" target="hidden_iframe" style="display:none">
+  <input type="text" name="entry.1140005052">
+  <input type="text" name="entry.2006319595">
+  <input type="text" name="entry.1297807279">
+  <input type="text" name="entry.1588588054">
+  <input type="text" name="entry.307859341">
+</form>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const $ = sel => document.querySelector(sel);
+const phoneInput = $('#phone');
+const submitBtn = $('#submitBtn');
+const toast = $('#toast');
+const agreeAll = $('#agreeAll');
+const agreePrivacy = $('#agreePrivacy');
+const agreeThird = $('#agreeThird');
+
+document.querySelectorAll('[data-target]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const panel = document.getElementById(btn.dataset.target);
+    if (!panel) return;
+    panel.hidden = !panel.hidden;
+  });
+});
+
+phoneInput.addEventListener('input', e => {
+  e.target.value = e.target.value.replace(/\D/g, '').slice(0, 11);
+});
+
+agreeAll.addEventListener('change', e => {
+  agreePrivacy.checked = e.target.checked;
+  agreeThird.checked = e.target.checked;
+});
+[agreePrivacy, agreeThird].forEach(el => {
+  el.addEventListener('change', () => {
+    agreeAll.checked = agreePrivacy.checked && agreeThird.checked;
+  });
+});
+
+function showToast(msg) {
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2400);
+}
+
+let iframeFirstLoad = true;
+let isSubmitting = false;
+
+document.getElementById('hidden_iframe').addEventListener('load', () => {
+  if (iframeFirstLoad) { iframeFirstLoad = false; return; }
+  if (!isSubmitting) return;
+  isSubmitting = false;
+  $('#formScreen').classList.add('hidden');
+  $('#doneScreen').classList.remove('hidden');
+  window.scrollTo(0, 0);
+});
+
+submitBtn.addEventListener('click', () => {
+  if (isSubmitting) return;
+
+  const name = $('#name').value.trim();
+  const phone = phoneInput.value.trim();
+  const url = $('#url').value.trim();
+
+  if (!name) return showToast('성함을 입력해 주세요');
+  if (!/^010\d{8}$/.test(phone)) return showToast('핸드폰 번호 11자리를 정확히 입력해 주세요');
+  if (!url) return showToast('후기 게시글 URL을 입력해 주세요');
+  if (!/^https?:\/\//.test(url)) return showToast('URL은 https:// 또는 http:// 로 시작해야 해요');
+  if (!agreePrivacy.checked || !agreeThird.checked) return showToast('필수 약관에 동의해 주세요');
+
+  const form = $('#googleForm');
+  form.querySelector('[name="entry.1140005052"]').value = name;
+  form.querySelector('[name="entry.2006319595"]').value = phone;
+  form.querySelector('[name="entry.1297807279"]').value = url;
+  form.querySelector('[name="entry.1588588054"]').value = '네, 동의합니다.';
+  form.querySelector('[name="entry.307859341"]').value = '네, 동의합니다.';
+
+  isSubmitting = true;
+  submitBtn.disabled = true;
+  submitBtn.textContent = '인증 중...';
+  form.submit();
+
+  setTimeout(() => {
+    if (isSubmitting) {
+      isSubmitting = false;
+      $('#formScreen').classList.add('hidden');
+      $('#doneScreen').classList.remove('hidden');
+      window.scrollTo(0, 0);
+    }
+  }, 600);
+});
+</script>
+</body>
+</html>
