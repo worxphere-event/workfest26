@@ -1154,6 +1154,7 @@ document.getElementById('hidden_iframe').addEventListener('load', () => {
   $('#formScreen').classList.add('hidden');
   $('#doneScreen').classList.remove('hidden');
   window.scrollTo(0, 0);
+  clearDraft();
 });
 
 submitBtn.addEventListener('click', () => {
@@ -1206,9 +1207,89 @@ submitBtn.addEventListener('click', () => {
       $('#formScreen').classList.add('hidden');
       $('#doneScreen').classList.remove('hidden');
       window.scrollTo(0, 0);
+      clearDraft();
     }
   }, 600);
 });
+
+// === Draft Auto-save (LocalStorage) ===
+const DRAFT_KEY = 'workfest_draft_v1';
+function saveDraft() {
+  try {
+    const draft = {
+      name: $('#name').value,
+      memberId: $('#memberId').value,
+      career: $('#career').value,
+      jobGroup: document.querySelector('input[name="jobGroup"]:checked')?.value || '',
+      duty: dutySelect.value,
+      phone: phoneInput.value,
+      study: document.querySelector('input[name="study"]:checked')?.value || '',
+      source: $('#source').value,
+    };
+    if (Object.values(draft).some(v => v)) {
+      localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+    }
+  } catch (e) {}
+}
+function clearDraft() { try { localStorage.removeItem(DRAFT_KEY); } catch (e) {} }
+function restoreDraft() {
+  let draft;
+  try {
+    const saved = localStorage.getItem(DRAFT_KEY);
+    if (!saved) return;
+    draft = JSON.parse(saved);
+  } catch (e) { return; }
+  if (draft.name) $('#name').value = draft.name;
+  if (draft.memberId) $('#memberId').value = draft.memberId;
+  if (draft.career) {
+    $('#career').value = draft.career;
+    if (customSelects.career) customSelects.career.updateTrigger();
+  }
+  if (draft.jobGroup) {
+    const radio = document.querySelector('input[name="jobGroup"][value="' + draft.jobGroup + '"]');
+    if (radio) {
+      radio.checked = true;
+      const cfg = DUTY_MAP[draft.jobGroup];
+      if (cfg) {
+        dutySelect.innerHTML = '<option value="" disabled selected>선택해 주세요</option>';
+        cfg.options.forEach(opt => {
+          const o = document.createElement('option');
+          o.value = opt;
+          o.textContent = opt;
+          dutySelect.appendChild(o);
+        });
+        dutySelect.disabled = false;
+        if (draft.duty) dutySelect.value = draft.duty;
+        if (customSelects.duty) {
+          customSelects.duty.updateTrigger();
+          customSelects.duty.rebuild();
+        }
+      }
+    }
+  }
+  if (draft.phone) phoneInput.value = draft.phone;
+  if (draft.study) {
+    const radio = document.querySelector('input[name="study"][value="' + draft.study + '"]');
+    if (radio) radio.checked = true;
+  }
+  if (draft.source) {
+    $('#source').value = draft.source;
+    if (customSelects.source) customSelects.source.updateTrigger();
+  }
+}
+
+['name', 'memberId', 'career', 'duty', 'source'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) {
+    el.addEventListener('change', saveDraft);
+    el.addEventListener('input', saveDraft);
+  }
+});
+phoneInput.addEventListener('input', saveDraft);
+document.querySelectorAll('input[name="jobGroup"]').forEach(el => el.addEventListener('change', saveDraft));
+document.querySelectorAll('input[name="study"]').forEach(el => el.addEventListener('change', saveDraft));
+
+restoreDraft();
 </script>
 </body>
 </html>
