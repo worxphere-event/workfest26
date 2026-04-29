@@ -16,9 +16,21 @@
     -webkit-font-smoothing: antialiased;
     line-height: 1.5;
   }
-  .wrap { max-width: 480px; margin: 0 auto; padding: 32px 24px 80px; }
-  .header { margin-bottom: 28px; text-align: center; }
-  .logo { display: block; height: 96px; width: auto; max-width: 100%; margin: 0 auto 16px; }
+  .wrap { max-width: 480px; margin: 0 auto; padding: 0 0 80px; }
+  .hero {
+    width: 100%;
+    background: #000;
+    overflow: hidden;
+  }
+  .hero-img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .header { margin: 24px 24px 28px; text-align: center; }
+  .logo { display: none; }
+  .section { padding: 0 24px; }
+  .submit-wrap { padding-left: 24px; padding-right: 24px; }
   .header-title {
     font-size: 18px;
     font-weight: 700;
@@ -198,12 +210,17 @@
     font-weight: 700;
     font-family: inherit;
     cursor: pointer;
-    transition: background .15s, transform .05s;
+    transition: all .25s ease;
     letter-spacing: -0.2px;
+    box-shadow: 0 2px 6px rgba(25, 31, 40, 0.1);
   }
-  button.submit:hover { background: #2D3748; }
-  button.submit:active { transform: scale(0.99); }
-  button.submit:disabled { background: #D1D6DB; cursor: not-allowed; }
+  button.submit:hover {
+    background: linear-gradient(135deg, #FF4D8B 0%, #C5378E 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(255, 77, 139, 0.35);
+  }
+  button.submit:active { transform: translateY(0); }
+  button.submit:disabled { background: #D1D6DB; cursor: not-allowed; transform: none; box-shadow: none; }
 
   .toast {
     position: fixed;
@@ -237,7 +254,8 @@
     align-items: center;
     justify-content: center;
   }
-  .done .icon svg { width: 28px; height: 28px; }
+  .done .icon { font-size: 32px; line-height: 1; }
+  .done .icon svg { display: none; }
   .done h2 { font-size: 22px; font-weight: 700; margin: 0 0 8px; letter-spacing: -0.4px; color: #191F28; }
   .done .done-desc { font-size: 14px; color: #6B7684; margin: 0 0 24px; line-height: 1.5; }
   .hidden { display: none; }
@@ -253,19 +271,11 @@
 <body>
 
 <div class="wrap" id="formScreen">
-  <div class="header">
-    <img src="logo.png" alt="WORK FEST" class="logo">
-    <p class="header-title">SNS 공유 인증하기</p>
-    <p class="header-desc">SNS에 공유하고 게시글을 인증하면<br>당첨 확률이 올라가요!</p>
+  <div class="hero">
+    <img src="hero.png" alt="WORK FEST — 미뤄둔 이력서 작성할 시간" class="hero-img">
   </div>
-
-  <div class="info-box">
-    <p class="info-box-title"><span class="tag">TIP</span>인증 방법</p>
-    <p class="info-box-text">
-      ① 링크드인·스레드·인스타그램·네이버 블로그 등에 <b>WORK FEST 후기</b>를 공유<br>
-      ② 게시글 URL을 복사해서 아래 폼에 붙여넣기<br>
-      ③ 정보 입력 후 인증 완료!
-    </p>
+  <div class="header">
+    <p class="header-title">SNS 공유하면 당첨 확률이 높아져요</p>
   </div>
 
   <div class="section">
@@ -280,8 +290,7 @@
     </div>
 
     <div class="field">
-      <label class="q" for="url">후기 게시글 URL<span class="req">*</span></label>
-      <p class="field-desc">링크드인 / 스레드 / 인스타그램 / 네이버 블로그 등</p>
+      <label class="q" for="url">후기 게시글 URL<span class="req">*</span><span class="q-sub">링크드인·스레드·인스타·네이버블로그 등</span></label>
       <input type="url" id="url" placeholder="https://..." autocomplete="off">
     </div>
   </div>
@@ -321,7 +330,7 @@
       <div class="agree-terms" id="thirdTerms" hidden>
         <div class="terms">동의하지 않을 경우 당첨 및 경품 수령이 불가합니다.
 
-1. 제공받는 자: (주)스마트콘
+1. 제공받는 자: (주)스마트콘, (주)플랜피아
 2. 이용 목적: 이벤트 경품 발송
 3. 제공 항목: 이름, 연락처, 주소
 4. 보유 및 이용 기간: 경품 발송일로부터 60일</div>
@@ -335,13 +344,9 @@
 </div>
 
 <div class="wrap done hidden" id="doneScreen">
-  <div class="icon">
-    <svg width="36" height="36" viewBox="0 0 24 24" fill="none">
-      <path d="M5 12l5 5L20 7" stroke="#191F28" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-  </div>
-  <h2>인증이 완료됐어요!</h2>
-  <p class="done-desc">SNS 공유 감사해요 🎉<br>당첨 확률이 올라갔어요!</p>
+  <div class="icon">✌️</div>
+  <h2>인증 완료</h2>
+  <p class="done-desc">SNS 공유 감사해요!<br>당첨 확률이 올라갔어요</p>
 </div>
 
 <iframe name="hidden_iframe" id="hidden_iframe" style="display:none"></iframe>
