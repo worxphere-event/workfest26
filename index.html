@@ -16,14 +16,20 @@
     -webkit-font-smoothing: antialiased;
     line-height: 1.5;
   }
-  .wrap { max-width: 480px; margin: 0 auto; padding: 32px 24px 80px; }
-  .header { margin-bottom: 32px; text-align: center; }
-  .logo {
+  .wrap { max-width: 480px; margin: 0 auto; padding: 0 0 80px; }
+  .hero {
+    width: 100%;
+    background: #000;
+    overflow: hidden;
+  }
+  .hero-img {
     display: block;
-    height: 96px;
-    width: auto;
-    max-width: 100%;
-    margin: 0 auto 16px;
+    width: 100%;
+    height: auto;
+  }
+  .header { margin: 24px 24px 32px; text-align: center; }
+  .logo {
+    display: none;
   }
   .period {
     font-size: 13px;
@@ -161,10 +167,11 @@
     text-align: center;
   }
   .help-text {
-    font-size: 13px;
+    font-size: 12px;
     color: #4E5968;
     line-height: 1.5;
     word-break: keep-all;
+    letter-spacing: -0.2px;
   }
   .inline-icon {
     display: inline-block;
@@ -189,8 +196,7 @@
     margin: 0 0 12px;
     text-align: center;
   }
-  #studyPanel .help-item { justify-content: center; align-items: center; }
-  #studyPanel .help-tag { margin-top: 0; }
+  #studyPanel .help-panel-text { text-align: left; }
 
   .check-row {
     display: flex;
@@ -521,6 +527,11 @@
     font-size: 14px;
     color: #B0B8C1;
     line-height: 1;
+    transition: transform .2s;
+    display: inline-block;
+  }
+  .see-more-btn.open::after {
+    transform: rotate(90deg);
   }
   .see-more-btn:hover { color: #4E5968; }
   .see-more-btn:hover::after { color: #4E5968; }
@@ -533,6 +544,13 @@
     border-radius: 8px;
     padding: 12px;
     border: 1px solid #ECEEF1;
+  }
+  .marketing-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 12px;
+    flex-shrink: 0;
   }
   .marketing-head {
     display: flex;
@@ -571,12 +589,17 @@
     font-weight: 700;
     font-family: inherit;
     cursor: pointer;
-    transition: background .15s, transform .05s;
+    transition: all .25s ease;
     letter-spacing: -0.2px;
+    box-shadow: 0 2px 6px rgba(25, 31, 40, 0.1);
   }
-  button.submit:hover { background: #2D3748; }
-  button.submit:active { transform: scale(0.99); }
-  button.submit:disabled { background: #D1D6DB; cursor: not-allowed; }
+  button.submit:hover {
+    background: linear-gradient(135deg, #FF4D8B 0%, #C5378E 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(255, 77, 139, 0.35);
+  }
+  button.submit:active { transform: translateY(0); }
+  button.submit:disabled { background: #D1D6DB; cursor: not-allowed; transform: none; box-shadow: none; }
 
   .toast {
     position: fixed;
@@ -619,7 +642,8 @@
     align-items: center;
     justify-content: center;
   }
-  .done .icon svg { width: 28px; height: 28px; }
+  .done .icon { font-size: 32px; line-height: 1; }
+  .done .icon svg { display: none; }
   .done h2 { font-size: 22px; font-weight: 700; margin: 0 0 8px; letter-spacing: -0.4px; color: #191F28; }
   .done .done-desc { font-size: 14px; color: #6B7684; margin: 0 0 24px; line-height: 1.5; }
   .deadline-box {
@@ -654,38 +678,38 @@
     font-weight: 700;
   }
   .resume-btn {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    height: 58px;
+    justify-content: center;
+    gap: 8px;
+    height: 56px;
+    padding: 0 36px;
     background: #191F28;
     color: #fff;
     border: none;
-    border-radius: 16px;
-    font-size: 15px;
+    border-radius: 12px;
+    font-size: 16px;
     font-weight: 700;
     font-family: inherit;
     cursor: pointer;
-    padding: 0 20px;
     text-decoration: none;
-    transition: background .15s, transform .05s;
+    transition: all .25s ease;
     letter-spacing: -0.2px;
+    box-shadow: 0 2px 6px rgba(25,31,40,0.1);
   }
-  .resume-btn:hover { background: #2D3748; }
-  .resume-btn:active { transform: scale(0.99); }
-  .resume-btn-text {
-    display: flex;
-    align-items: center;
-    z-index: 1;
+  .resume-btn:hover {
+    background: linear-gradient(135deg, #FF4D8B 0%, #C5378E 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(255, 77, 139, 0.35);
   }
+  .resume-btn:active { transform: translateY(0); }
   .resume-btn .arrow {
     font-size: 16px;
     font-weight: 500;
     flex-shrink: 0;
-    transition: transform .15s;
+    transition: transform .2s;
   }
-  .resume-btn:hover .arrow { transform: translateX(2px); }
+  .resume-btn:hover .arrow { transform: translateX(3px); }
   .hidden { display: none; }
 
   @media (max-width: 380px) {
@@ -708,9 +732,11 @@
 <body>
 
 <div class="wrap" id="formScreen">
+  <div class="hero">
+    <img src="hero.png" alt="WORK FEST — 미뤄둔 이력서 작성할 시간" class="hero-img">
+  </div>
   <div class="header">
-    <img src="logo.png" alt="WORK FEST" class="logo">
-    <p class="period">신청 기간 · 5/1 ~ 5/28</p>
+    <p class="period">이벤트 신청하기 (~5/28까지)</p>
   </div>
 
   <div class="section">
@@ -784,7 +810,7 @@
         <label class="q">온라인 스터디(스터디윗미)에 참여하시나요?<span class="req">*</span></label>
         <button type="button" class="see-more-btn" data-target="studyPanel">자세히 보기</button>
       </div>
-      <p class="field-desc">일정 : 5/27(수) 오후 2시 - 5시 · 신청 마감 5/26(화) 23:59</p>
+      <p class="field-desc">일정: 5/27(수) 오후 2시 - 5시</p>
       <div class="help-panel" id="studyPanel" hidden>
         <p class="help-panel-text">
           유튜브 스트리밍으로 다 같이 모여서 각자 이력서를 작성하는 시간이에요.<br>
@@ -793,10 +819,6 @@
         <div class="help-item">
           <span class="help-tag">장소</span>
           <span class="help-text">유튜브 스트리밍</span>
-        </div>
-        <div class="help-item">
-          <span class="help-tag">마감</span>
-          <span class="help-text">5/26(화) 23:59까지 신청</span>
         </div>
         <div class="help-item">
           <span class="help-tag">안내</span>
@@ -822,18 +844,18 @@
       <select id="source">
         <option value="" disabled selected>선택해 주세요</option>
         <option value="광고 (인스타, 스레드, 페북)">광고 (인스타, 스레드, 페북)</option>
-        <option value="잡코리아 데브콘에서 알게 됨">잡코리아 데브콘에서 알게 됨</option>
+        <option value="지인 추천">지인 추천</option>
+        <option value="잡플래닛 이메일">잡플래닛 이메일</option>
         <option value="잡코리아 팝업 메시지">잡코리아 팝업 메시지</option>
         <option value="잡코리아 상단 배너">잡코리아 상단 배너</option>
-        <option value="잡코리아 오카방">잡코리아 오카방</option>
+        <option value="잡코리아 데브콘에서 알게 됨">잡코리아 데브콘에서 알게 됨</option>
+        <option value="잡코리아 사이트 (공지사항, 콘텐츠랩)">잡코리아 사이트 (공지사항, 콘텐츠랩)</option>
         <option value="잡코리아 인스타그램">잡코리아 인스타그램</option>
         <option value="잡코리아 링크드인">잡코리아 링크드인</option>
         <option value="잡코리아 블로그">잡코리아 블로그</option>
-        <option value="잡코리아 사이트 (공지사항, 콘텐츠랩)">잡코리아 사이트 (공지사항, 콘텐츠랩)</option>
-        <option value="잡플래닛 이메일">잡플래닛 이메일</option>
-        <option value="게임잡 팝업 메시지">게임잡 팝업 메시지</option>
+        <option value="잡코리아 오카방">잡코리아 오카방</option>
         <option value="기사(보도자료)">기사(보도자료)</option>
-        <option value="지인 추천">지인 추천</option>
+        <option value="게임잡 팝업 메시지">게임잡 팝업 메시지</option>
       </select>
     </div>
   </div>
@@ -882,16 +904,16 @@
 
     <div class="marketing-row" style="margin-top:12px;">
       <div class="marketing-text">
-        <div class="marketing-head">
-          <p class="marketing-title"><span class="opt-tag">[선택]</span>SMS 알림 수신 동의 <span class="oneoff-badge">1회성</span></p>
-          <button type="button" class="see-more-btn" data-target="marketingTerms">자세히 보기</button>
-        </div>
-        <p class="marketing-desc">이력서 업데이트 놓치지 않게, 마감일 전 문자로 알려드릴게요</p>
+        <p class="marketing-title"><span class="opt-tag">[선택]</span>SMS 알림 수신 동의 <span class="oneoff-badge">1회성</span></p>
+        <p class="marketing-desc">마감일 전 문자로 리마인드 드릴게요</p>
       </div>
-      <label class="toggle-switch">
-        <input type="checkbox" id="agreeMarketing">
-        <span class="toggle-slider"></span>
-      </label>
+      <div class="marketing-actions">
+        <button type="button" class="see-more-btn" data-target="marketingTerms">자세히 보기</button>
+        <label class="toggle-switch">
+          <input type="checkbox" id="agreeMarketing">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
     </div>
     <div class="agree-terms marketing-terms-content" id="marketingTerms" hidden>
       <div class="terms">· 본 동의는 WORK FEST 이벤트 한정 1회성 동의이며, 이벤트 종료 후 자동 만료됩니다. (이후 추가 마케팅 발송 없음)
@@ -911,18 +933,9 @@
 </div>
 
 <div class="wrap done hidden" id="doneScreen">
-  <div class="icon">
-    <svg width="36" height="36" viewBox="0 0 24 24" fill="none">
-      <path d="M5 12l5 5L20 7" stroke="#191F28" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-  </div>
-  <h2>신청이 완료되었어요!</h2>
-  <p class="done-desc">WORK FEST에서 만나요 🎉</p>
-
-  <div class="deadline-box">
-    <span class="deadline-tag">중요</span>
-    <p class="deadline-text">반드시 <span class="highlight">5월 28일까지</span><br>이력서를 업데이트해 주세요!</p>
-  </div>
+  <div class="icon">💌</div>
+  <h2>신청 완료</h2>
+  <p class="done-desc">~5/28까지 이력서 업데이트를 마무리 해 주세요!</p>
 
   <a href="https://www.jobkorea.co.kr/User/ResumeMng" target="_blank" rel="noopener" class="resume-btn">
     <span>이력서 작성하러 가기</span>
