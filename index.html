@@ -16,20 +16,14 @@
     -webkit-font-smoothing: antialiased;
     line-height: 1.5;
   }
-  .wrap { max-width: 480px; margin: 0 auto; padding: 0 0 80px; }
-  .hero {
-    width: 100%;
-    background: #000;
-    overflow: hidden;
-  }
-  .hero-img {
-    display: block;
-    width: 100%;
-    height: auto;
-  }
-  .header { margin: 24px 24px 32px; text-align: center; }
+  .wrap { max-width: 480px; margin: 0 auto; padding: 32px 24px 80px; }
+  .header { margin-bottom: 32px; text-align: center; }
   .logo {
-    display: none;
+    display: block;
+    height: 96px;
+    width: auto;
+    max-width: 100%;
+    margin: 0 auto 16px;
   }
   .period {
     font-size: 13px;
@@ -732,10 +726,8 @@
 <body>
 
 <div class="wrap" id="formScreen">
-  <div class="hero">
-    <img src="hero.png" alt="WORK FEST — 미뤄둔 이력서 작성할 시간" class="hero-img">
-  </div>
   <div class="header">
+    <img src="logo.png" alt="WORK FEST" class="logo">
     <p class="period">이벤트 신청하기 (~5/28까지)</p>
   </div>
 
