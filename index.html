@@ -29,8 +29,16 @@
     font-size: 20px;
     font-weight: 700;
     color: #191F28;
-    margin: 0;
+    margin: 0 0 4px;
     letter-spacing: -0.3px;
+    text-align: center;
+  }
+  .period-sub {
+    font-size: 13px;
+    font-weight: 500;
+    color: #8B95A1;
+    margin: 0;
+    letter-spacing: 0.2px;
     text-align: center;
   }
 
@@ -161,11 +169,17 @@
     text-align: center;
   }
   .help-text {
-    font-size: 12px;
+    font-size: 11px;
     color: #4E5968;
     line-height: 1.5;
     word-break: keep-all;
-    letter-spacing: -0.2px;
+    letter-spacing: -0.3px;
+  }
+  .help-item .inline-svg {
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.18em;
+    margin: 0 1px;
   }
   .inline-icon {
     display: inline-block;
@@ -728,7 +742,8 @@
 <div class="wrap" id="formScreen">
   <div class="header">
     <img src="logo.png" alt="WORK FEST" class="logo">
-    <p class="period">이벤트 신청하기 (~5/28까지)</p>
+    <p class="period">이벤트 응모하기</p>
+    <p class="period-sub">5/1 - 5/28</p>
   </div>
 
   <div class="section">
@@ -746,7 +761,7 @@
       <div class="help-panel" id="memberIdPanel" hidden>
         <div class="help-item">
           <span class="help-tag">PC</span>
-          <span class="help-text">로그인 → 우측 상단 프로필 아이콘<svg class="inline-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg> → 개인정보 수정 → 아이디 확인</span>
+          <span class="help-text">로그인 → 프로필 아이콘<svg class="inline-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg> → 개인정보 수정 → 아이디 확인</span>
         </div>
         <div class="help-item">
           <span class="help-tag">MO</span>
@@ -805,7 +820,7 @@
       <p class="field-desc">일정: 5/27(수) 오후 2시 - 5시</p>
       <div class="help-panel" id="studyPanel" hidden>
         <p class="help-panel-text">
-          익명의 스터디원과 온라인으로 모여 각자 이력서를 작성하는 시간이에요.<br>
+          익명의 사람들과 함께 이력서를 작성하는 시간이에요.<br>
           미뤄둔 이력서, 이번엔 반드시 작성해 봐요
         </p>
         <div class="help-item">
