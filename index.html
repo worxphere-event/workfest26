@@ -6,14 +6,12 @@
 <title>WORK FEST 신청하기</title>
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://worxphere-event.github.io/workfest26/">
-<meta property="og:title" content="WORK FEST — 잡코리아 이력서 페스티벌">
-<meta property="og:description" content="이력서 작성·업데이트만 해도 303명에게 경품 증정! (5/1 ~ 5/28)">
+<meta property="og:title" content="잡코리아 이력서 페스티벌 WORK FEST">
 <meta property="og:image" content="https://worxphere-event.github.io/workfest26/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="600">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="WORK FEST — 잡코리아 이력서 페스티벌">
-<meta name="twitter:description" content="이력서 작성·업데이트만 해도 303명에게 경품 증정! (5/1 ~ 5/28)">
+<meta name="twitter:title" content="잡코리아 이력서 페스티벌 WORK FEST">
 <meta name="twitter:image" content="https://worxphere-event.github.io/workfest26/og.png">
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
@@ -1290,6 +1288,33 @@ document.querySelectorAll('input[name="jobGroup"]').forEach(el => el.addEventLis
 document.querySelectorAll('input[name="study"]').forEach(el => el.addEventListener('change', saveDraft));
 
 restoreDraft();
+
+// === 스터디윗미 5/26 23:59 이후 자동 마감 ===
+const STUDY_DEADLINE = new Date('2026-05-27T00:00:00+09:00');
+if (new Date() >= STUDY_DEADLINE) {
+  const noOption = document.querySelector('input[name="study"][value="아뇨, 괜찮아요"]');
+  if (noOption) noOption.checked = true;
+
+  const studyCheckGroup = document.querySelector('input[name="study"]')?.closest('.check-group');
+  if (studyCheckGroup) studyCheckGroup.style.display = 'none';
+
+  const studyMoreBtn = document.querySelector('[data-target="studyPanel"]');
+  if (studyMoreBtn) studyMoreBtn.style.display = 'none';
+
+  const studyField = document.querySelector('input[name="study"]')?.closest('.field');
+  if (studyField) {
+    const desc = studyField.querySelector('.field-desc');
+    if (desc) desc.style.display = 'none';
+
+    const studyPanel = document.getElementById('studyPanel');
+    if (studyPanel) studyPanel.style.display = 'none';
+
+    const closed = document.createElement('div');
+    closed.style.cssText = 'padding: 14px 16px; background: #F9FAFB; border-radius: 12px; text-align: center; color: #6B7684; font-size: 14px; margin-top: 8px;';
+    closed.textContent = '⛔ 스터디 신청은 마감되었어요';
+    studyField.appendChild(closed);
+  }
+}
 </script>
 </body>
 </html>
