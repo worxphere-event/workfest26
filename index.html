@@ -1189,6 +1189,16 @@ submitBtn.addEventListener('click', () => {
   form.querySelector('[name="entry.1987530496"]').value = '';
   form.querySelector('[name="entry.1849343868"]').value = '';
   form.querySelector('[name="' + DUTY_MAP[jobGroup].entry + '"]').value = duty;
+
+  // 직군별 페이지 분기에 맞춰 pageHistory 동적 설정
+  const PAGE_HISTORY = {
+    'AI·개발·데이터': '0,3,4',
+    '디자인': '0,2,4',
+    '기획·전략': '0,4',
+    '기타': '0,1,4',
+  };
+  form.querySelector('[name="pageHistory"]').value = PAGE_HISTORY[jobGroup] || '0,1,2,3,4';
+
   form.querySelector('[name="entry.965118754"]').value = phone;
   form.querySelector('[name="entry.1741095555"]').value = study;
   form.querySelector('[name="entry.1824458420"]').value = source;
