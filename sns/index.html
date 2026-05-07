@@ -288,7 +288,7 @@
     </div>
 
     <div class="field">
-      <label class="q" for="url">후기 게시글 URL<span class="req">*</span><span class="q-sub">링크드인·스레드·인스타·네이버 블로그 등</span></label>
+      <label class="q" for="url">SNS 게시글 링크<span class="req">*</span><span class="q-sub">링크드인·스레드·인스타·네이버 블로그 등</span></label>
       <input type="url" id="url" placeholder="https://..." autocomplete="off">
     </div>
   </div>
@@ -416,7 +416,7 @@ submitBtn.addEventListener('click', () => {
 
   if (!name) return showToast('성함을 입력해 주세요');
   if (!/^010\d{8}$/.test(phone)) return showToast('핸드폰 번호 11자리를 정확히 입력해 주세요');
-  if (!url) return showToast('후기 게시글 URL을 입력해 주세요');
+  if (!url) return showToast('SNS 게시글 링크를 입력해 주세요');
   if (!/^https?:\/\//.test(url)) return showToast('URL은 https:// 또는 http:// 로 시작해야 해요');
   if (!agreePrivacy.checked || !agreeThird.checked) return showToast('필수 약관에 동의해 주세요');
 
