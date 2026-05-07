@@ -730,6 +730,59 @@
     transition: transform .2s;
   }
   .resume-btn:hover .arrow { transform: translateX(3px); }
+
+  .share-section {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid #F2F4F6;
+  }
+  .share-section-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #4E5968;
+    margin: 0 0 10px;
+    text-align: center;
+    letter-spacing: -0.2px;
+  }
+  .share-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .share-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    height: 76px;
+    background: #FFFFFF;
+    color: #4E5968;
+    border: 1px solid #E5E8EB;
+    border-radius: 14px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: border-color .15s, background .15s, color .15s, transform .05s;
+    letter-spacing: -0.2px;
+  }
+  .share-item:hover { border-color: #191F28; background: #FAFBFC; color: #191F28; }
+  .share-item:active { transform: scale(0.98); }
+  .share-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .share-icon.x { background: #000000; color: #FFFFFF; }
+  .share-icon.fb { background: #1877F2; color: #FFFFFF; }
+  .share-icon.copy { background: #F2F4F6; color: #4E5968; }
+  .share-icon svg { width: 16px; height: 16px; }
+
   .hidden { display: none; }
 
   @media (max-width: 380px) {
@@ -959,6 +1012,37 @@
     <span>이력서 작성하러 가기</span>
     <span class="arrow">→</span>
   </a>
+
+  <div class="share-section">
+    <p class="share-section-title">이벤트 소문내고 당첨 확률 높이기</p>
+    <div class="share-grid">
+      <button type="button" class="share-item" id="shareX" aria-label="X(트위터)에 공유">
+        <span class="share-icon x">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+          </svg>
+        </span>
+        <span>X</span>
+      </button>
+      <button type="button" class="share-item" id="shareFB" aria-label="페이스북에 공유">
+        <span class="share-icon fb">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/>
+          </svg>
+        </span>
+        <span>페이스북</span>
+      </button>
+      <button type="button" class="share-item" id="shareCopy" aria-label="링크 복사">
+        <span class="share-icon copy">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+          </svg>
+        </span>
+        <span>링크 복사</span>
+      </button>
+    </div>
+  </div>
 </div>
 
 <iframe name="hidden_iframe" id="hidden_iframe" style="display:none"></iframe>
@@ -1331,6 +1415,73 @@ if (new Date() >= STUDY_DEADLINE) {
     closed.textContent = '⛔ 스터디 신청은 마감되었어요';
     studyField.appendChild(closed);
   }
+}
+
+// ====== 공유하기 ======
+const SHARE_URL = 'https://worxphere-event.github.io/workfest26/';
+const SHARE_TITLE = 'JOBKOREA WORK FEST';
+const SHARE_TEXT = '이력서 업데이트하고 맥북·에어팟·메가커피 받자! 🎁\n5/1~5/28 잡코리아 WORK FEST';
+
+function showToast(msg) {
+  let t = document.getElementById('toast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'toast';
+    t.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:#191F28;color:#fff;padding:14px 20px;border-radius:12px;font-size:14px;font-weight:500;opacity:0;transition:all .3s;z-index:1000;max-width:90%;text-align:center;';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.style.transform = 'translateX(-50%) translateY(0)';
+  t.style.opacity = '1';
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => {
+    t.style.transform = 'translateX(-50%) translateY(100px)';
+    t.style.opacity = '0';
+  }, 2400);
+}
+
+function openShareTab(url, label) {
+  showToast(`${label} 공유창 여는 중...`);
+  window.open(url, '_blank', 'noopener,noreferrer');
+}
+
+const shareXBtn = document.getElementById('shareX');
+if (shareXBtn) {
+  shareXBtn.addEventListener('click', () => {
+    const url = `https://x.com/intent/post?text=${encodeURIComponent(SHARE_TEXT)}&url=${encodeURIComponent(SHARE_URL)}`;
+    openShareTab(url, 'X');
+  });
+}
+const shareFBBtn = document.getElementById('shareFB');
+if (shareFBBtn) {
+  shareFBBtn.addEventListener('click', () => {
+    const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(SHARE_URL)}`;
+    openShareTab(url, '페이스북');
+  });
+}
+const shareCopyBtn = document.getElementById('shareCopy');
+if (shareCopyBtn) {
+  shareCopyBtn.addEventListener('click', async () => {
+    const payload = `${SHARE_TEXT}\n${SHARE_URL}`;
+    try {
+      await navigator.clipboard.writeText(payload);
+      showToast('링크가 복사됐어요! 카톡·인스타에 붙여넣어 보세요 🎁');
+    } catch (err) {
+      const ta = document.createElement('textarea');
+      ta.value = payload;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      showToast('링크가 복사됐어요!');
+    }
+  });
+}
+
+// ====== 미리보기 (운영 영향 없음, ?preview=done 일 때만 동작) ======
+if (location.search.indexOf('preview=done') !== -1) {
+  document.getElementById('formScreen')?.classList.add('hidden');
+  document.getElementById('doneScreen')?.classList.remove('hidden');
 }
 </script>
 </body>
